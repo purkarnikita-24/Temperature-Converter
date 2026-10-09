@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="A professional temperature converter for Celsius, Fahrenheit and Kelvin with instant, accurate conversions.">
+  <title>ThermoConvert | Temperature Converter</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="ThermoConvert home">
+      <span class="brand-icon">°</span>
+      <span>Thermo<span class="brand-accent">Convert</span></span>
+    </a>
+    <span class="header-tag">
+      <span class="status-dot"></span> Precision Converter
+    </span>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">
+        <span class="eyebrow-line"></span>
+        TEMPERATURE TOOLS
+      </div>
+      <h1>Temperature,<br><span>made simple.</span></h1>
+      <p class="hero-description">
+        Convert between Celsius, Fahrenheit, and Kelvin with
+        precision, instantly.
+      </p>
+    </section>
+
+    <section class="converter-card" aria-labelledby="converter-title">
+      <div class="card-heading">
+        <div>
+          <h2 id="converter-title">Temperature converter</h2>
+          <p>Enter a value and choose your units.</p>
+        </div>
+        <div class="thermometer-icon" aria-hidden="true">🌡</div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label for="temperature">Temperature value</label>
+          <input
+            id="temperature"
+            type="number"
+            step="any"
+            inputmode="decimal"
+            placeholder="e.g. 25"
+            value="25"
+            autocomplete="off"
+          >
+          <span class="field-hint">Enter any valid temperature</span>
+        </div>
+
+        <div class="field">
+          <label for="fromUnit">From</label>
+          <div class="select-wrap">
+            <select id="fromUnit">
+              <option value="C" selected>Celsius (°C)</option>
+              <option value="F">Fahrenheit (°F)</option>
+              <option value="K">Kelvin (K)</option>
+            </select>
+          </div>
+          <span class="field-hint">Original unit</span>
+        </div>
+      </div>
+
+      <div class="swap-row">
+        <span class="swap-line"></span>
+        <button id="swapBtn" class="swap-btn" type="button"
+          aria-label="Swap temperature units" title="Swap units">
+          ⇅
+        </button>
+        <span class="swap-label">SWAP UNITS</span>
+        <span class="swap-line"></span>
+      </div>
+
+      <div class="field output-field">
+        <label for="toUnit">Convert to</label>
+        <div class="output-controls">
+          <div class="select-wrap">
+            <select id="toUnit">
+              <option value="C">Celsius (°C)</option>
+              <option value="F" selected>Fahrenheit (°F)</option>
+              <option value="K">Kelvin (K)</option>
+            </select>
+          </div>
+          <button id="copyBtn" class="copy-btn" type="button"
+            title="Copy result" aria-label="Copy conversion result">
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <div class="result-panel" aria-live="polite" aria-atomic="true">
+        <div class="result-caption">CONVERTED TEMPERATURE</div>
+        <div class="result-number">
+          <span id="result">77</span>
+          <span id="resultUnit">°F</span>
+        </div>
+        <div id="resultMessage" class="result-message">
+          25 °C is equal to 77 °F
+        </div>
+        <div class="result-divider"></div>
+        <div class="result-footer">
+          <span class="accuracy-dot"></span>
+          <span id="precisionNote">Rounded to 2 decimal places</span>
+          <button id="precisionBtn" class="precision-btn" type="button">
+            Change precision
+          </button>
+        </div>
+        <div id="precisionOptions" class="precision-options" hidden>
+          <label for="precision">Decimal places</label>
+          <select id="precision">
+            <option value="2" selected>2 places</option>
+            <option value="0">0 places</option>
+            <option value="1">1 place</option>
+            <option value="3">3 places</option>
+            <option value="4">4 places</option>
+            <option value="6">6 places</option>
+          </select>
+        </div>
+      </div>
+
+      <p id="errorMessage" class="error-message" role="alert" hidden></p>
+
+      <div class="action-row">
+        <button id="resetBtn" class="reset-btn" type="button">
+          ↺ &nbsp; Reset converter
+        </button>
+      </div>
+    </section>
+
+    <section class="quick-section">
+      <div class="section-heading">
+        <div>
+          <h2>Quick reference</h2>
+          <p>Common temperatures in everyday life.</p>
+        </div>
+      </div>
+
+      <div class="reference-grid">
+        <button class="reference-card" type="button"
+          data-value="0" data-unit="C">
+          <span class="reference-icon blue">❄</span>
+          <span class="reference-name">Water freezes</span>
+          <strong>0°C</strong>
+          <span class="reference-sub">32°F · 273.15 K</span>
+        </button>
+
+        <button class="reference-card" type="button"
+          data-value="20" data-unit="C">
+          <span class="reference-icon green">☀</span>
+          <span class="reference-name">Room temperature</span>
+          <strong>20°C</strong>
+          <span class="reference-sub">68°F · 293.15 K</span>
+        </button>
+
+        <button class="reference-card" type="button"
+          data-value="37" data-unit="C">
+          <span class="reference-icon orange">♨</span>
+          <span class="reference-name">Body temperature*</span>
+          <strong>37°C</strong>
+          <span class="reference-sub">98.6°F · 310.15 K</span>
+        </button>
+
+        <button class="reference-card" type="button"
+          data-value="100" data-unit="C">
+          <span class="reference-icon red">♨</span>
+          <span class="reference-name">Water boils*</span>
+          <strong>100°C</strong>
+          <span class="reference-sub">212°F · 373.15 K</span>
+        </button>
+      </div>
+      <p class="reference-note">
+        *Approximate reference values. Water's boiling point depends on
+        atmospheric pressure; normal body temperature varies by person.
+      </p>
+    </section>
+
+    <section class="formula-section">
+      <div>
+        <span class="formula-eyebrow">BEHIND THE MATH</span>
+        <h2>Built on real formulas.</h2>
+        <p>Every conversion starts with Celsius as the common reference.</p>
+      </div>
+      <div class="formula-list">
+        <div class="formula-item">
+          <span class="formula-symbol">°C → °F</span>
+          <code>(°C × 9/5) + 32</code>
+        </div>
+        <div class="formula-item">
+          <span class="formula-symbol">°F → °C</span>
+          <code>(°F − 32) × 5/9</code>
+        </div>
+        <div class="formula-item">
+          <span class="formula-symbol">°C → K</span>
+          <code>°C + 273.15</code>
+        </div>
+        <div class="formula-item">
+          <span class="formula-symbol">K → °C</span>
+          <code>K − 273.15</code>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <a class="brand footer-brand" href="#">
+        <span class="brand-icon">°</span>
+        <span>Thermo<span class="brand-accent">Convert</span></span>
+      </a>
+      <span>Simple conversions. Reliable calculations.</span>
+    </footer>
+  </main>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="A professional temperature converter for Celsius, Fahrenheit and Kelvin with instant, accurate conversions.">
+  <title>ThermoConvert | Temperature Converter</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="ThermoConvert home">
+      <span class="brand-icon">°</span>
+      <span>Thermo<span class="brand-accent">Convert</span></span>
+    </a>
+    <span class="header-tag">
+      <span class="status-dot"></span> Precision Converter
+    </span>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">
+        <span class="eyebrow-line"></span>
+        TEMPERATURE TOOLS
+      </div>
+      <h1>Temperature,<br><span>made simple.</span></h1>
+      <p class="hero-description">
+        Convert between Celsius, Fahrenheit, and Kelvin with
+        precision, instantly.
+      </p>
+    </section>
+
+    <section class="converter-card" aria-labelledby="converter-title">
+      <div class="card-heading">
+        <div>
+          <h2 id="converter-title">Temperature converter</h2>
+          <p>Enter a value and choose your units.</p>
+        </div>
+        <div class="thermometer-icon" aria-hidden="true">🌡</div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label for="temperature">Temperature value</label>
+          <input
+            id="temperature"
+            type="number"
+            step="any"
+            inputmode="decimal"
+            placeholder="e.g. 25"
+            value="25"
+            autocomplete="off"
+          >
+          <span class="field-hint">Enter any valid temperature</span>
+        </div>
+
+        <div class="field">
+          <label for="fromUnit">From</label>
+          <div class="select-wrap">
+            <select id="fromUnit">
+              <option value="C" selected>Celsius (°C)</option>
+              <option value="F">Fahrenheit (°F)</option>
+              <option value="K">Kelvin (K)</option>
+            </select>
+          </div>
+          <span class="field-hint">Original unit</span>
+        </div>
+      </div>
+
+      <div class="swap-row">
+        <span class="swap-line"></span>
+        <button id="swapBtn" class="swap-btn" type="button"
+          aria-label="Swap temperature units" title="Swap units">
+          ⇅
+        </button>
+        <span class="swap-label">SWAP UNITS</span>
+        <span class="swap-line"></span>
+      </div>
+
+      <div class="field output-field">
+        <label for="toUnit">Convert to</label>
+        <div class="output-controls">
+          <div class="select-wrap">
+            <select id="toUnit">
+              <option value="C">Celsius (°C)</option>
+              <option value="F" selected>Fahrenheit (°F)</option>
+              <option value="K">Kelvin (K)</option>
+            </select>
+          </div>
+          <button id="copyBtn" class="copy-btn" type="button"
+            title="Copy result" aria-label="Copy conversion result">
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <div class="result-panel" aria-live="polite" aria-atomic="true">
+        <div class="result-caption">CONVERTED TEMPERATURE</div>
+        <div class="result-number">
+          <span id="result">77</span>
+          <span id="resultUnit">°F</span>
+        </div>
+        <div id="resultMessage" class="result-message">
+          25 °C is equal to 77 °F
+        </div>
+        <div class="result-divider"></div>
+        <div class="result-footer">
+          <span class="accuracy-dot"></span>
+          <span id="precisionNote">Rounded to 2 decimal places</span>
+          <button id="precisionBtn" class="precision-btn" type="button">
+            Change precision
+          </button>
+        </div>
+        <div id="precisionOptions" class="precision-options" hidden>
+          <label for="precision">Decimal places</label>
+          <select id="precision">
+            <option value="2" selected>2 places</option>
+            <option value="0">0 places</option>
+            <option value="1">1 place</option>
+            <option value="3">3 places</option>
+            <option value="4">4 places</option>
+            <option value="6">6 places</option>
+          </select>
+        </div>
+      </div>
+
+      <p id="errorMessage" class="error-message" role="alert" hidden></p>
+
+      <div class="action-row">
+        <button id="resetBtn" class="reset-btn" type="button">
+          ↺ &nbsp; Reset converter
+        </button>
+      </div>
+    </section>
+
+    <section class="quick-section">
+      <div class="section-heading">
+        <div>
+          <h2>Quick reference</h2>
+          <p>Common temperatures in everyday life.</p>
+        </div>
+      </div>
+
+      <div class="reference-grid">
+        <button class="reference-card" type="button"
+          data-value="0" data-unit="C">
+          <span class="reference-icon blue">❄</span>
+          <span class="reference-name">Water freezes</span>
+          <strong>0°C</strong>
+          <span class="reference-sub">32°F · 273.15 K</span>
+        </button>
+
+        <button class="reference-card" type="button"
+          data-value="20" data-unit="C">
+          <span class="reference-icon green">☀</span>
+          <span class="reference-name">Room temperature</span>
+          <strong>20°C</strong>
+          <span class="reference-sub">68°F · 293.15 K</span>
+        </button>
+
+        <button class="reference-card" type="button"
+          data-value="37" data-unit="C">
+          <span class="reference-icon orange">♨</span>
+          <span class="reference-name">Body temperature*</span>
+          <strong>37°C</strong>
+          <span class="reference-sub">98.6°F · 310.15 K</span>
+        </button>
+
+        <button class="reference-card" type="button"
+          data-value="100" data-unit="C">
+          <span class="reference-icon red">♨</span>
+          <span class="reference-name">Water boils*</span>
+          <strong>100°C</strong>
+          <span class="reference-sub">212°F · 373.15 K</span>
+        </button>
+      </div>
+      <p class="reference-note">
+        *Approximate reference values. Water's boiling point depends on
+        atmospheric pressure; normal body temperature varies by person.
+      </p>
+    </section>
+
+    <section class="formula-section">
+      <div>
+        <span class="formula-eyebrow">BEHIND THE MATH</span>
+        <h2>Built on real formulas.</h2>
+        <p>Every conversion starts with Celsius as the common reference.</p>
+      </div>
+      <div class="formula-list">
+        <div class="formula-item">
+          <span class="formula-symbol">°C → °F</span>
+          <code>(°C × 9/5) + 32</code>
+        </div>
+        <div class="formula-item">
+          <span class="formula-symbol">°F → °C</span>
+          <code>(°F − 32) × 5/9</code>
+        </div>
+        <div class="formula-item">
+          <span class="formula-symbol">°C → K</span>
+          <code>°C + 273.15</code>
+        </div>
+        <div class="formula-item">
+          <span class="formula-symbol">K → °C</span>
+          <code>K − 273.15</code>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <a class="brand footer-brand" href="#">
+        <span class="brand-icon">°</span>
+        <span>Thermo<span class="brand-accent">Convert</span></span>
+      </a>
+      <span>Simple conversions. Reliable calculations.</span>
+    </footer>
+  </main>
+</body>
+</html>
